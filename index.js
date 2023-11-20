@@ -75,9 +75,8 @@ function sinBinClock(clicked_id) {
     let seconds = 0;
     intervalSB = setInterval(function() {
         if ((minutes == 0) && (seconds == 0)) {
-            finishClock();
-        }
-        if(seconds == 0) { 
+            finishClock(intervalSB);
+        } else if(seconds == 0) { 
             minutes--;
             seconds = 59; 
         } else { 
@@ -98,9 +97,8 @@ function kickOff() {
     
     intervalClock = setInterval(function() {
         if ((minutes == 0) && (seconds == 0)) {
-            finishClock();
-        }
-        if (seconds == 0) {
+            finishClock(intervalClock);
+        } else if (seconds == 0) {
             minutes--;
             seconds = 59;
         } else {
