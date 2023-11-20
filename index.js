@@ -13,11 +13,12 @@ let intervalSB;
 let homeReds = 0;
 let awayReds = 0;
 
-//function to add 5 points to the home team
+//function to add 5 points to a team
 function addTry(clicked_id) {
     //add 5 points to the team score
     if (clicked_id == "home-try") {
         homeScore += 5;
+        //track number of tries scored and award bonus when number exceeds 4.
         homeTriesSum++;
         if (homeTriesSum >= 4) {
             homeBonusPoints.textContent = "BP Earned";
@@ -33,7 +34,7 @@ function addTry(clicked_id) {
     }
 }
 
-//function to add 3 points to the home team
+//function to add 3 points to a team
 function addDG(clicked_id) {
     if (clicked_id == "home-DG") {
         homeScore += 3;
@@ -43,8 +44,9 @@ function addDG(clicked_id) {
         document.getElementById("away-score").textContent = awayScore;
     }
 }
-
+//function to add conversion point value to home team
 function homeConversion() {
+    //conversion value can only be added if a try has been scored.
     if ((homeTriesSum > 0) && (homeConversionSum < homeTriesSum)) {
         homeScore += 2;
         document.getElementById("home-score").textContent = homeScore;
@@ -60,6 +62,7 @@ function awayConversion() {
     awayConversionSum++;
 }
 
+//function to create a sin bin section which includes a 10 minute clock if yellow card awarded.
 function sinBinClock(clicked_id) {
     let tableRef = document.getElementById("sb-clocks");
     let newRow = tableRef.insertRow(-1);
@@ -87,6 +90,7 @@ function sinBinClock(clicked_id) {
     1000);
 }
 
+//end clock and clear reset interval value.
 function finishClock(intervalID) {
     return clearInterval(intervalID);
 }
@@ -107,7 +111,7 @@ function kickOff() {
         document.getElementById("clock").textContent = minutes + ": " + seconds}, 1000)
 }
 
-
+//reset all counters and variables to prepare for a new game.
 function reset() {
     document.getElementById("away-score").textContent = 0;
     document.getElementById("home-score").textContent = 0;
@@ -128,6 +132,7 @@ function reset() {
     document.getElementById("awayRC").textContent = "Red Cards: ";
 }
 
+//function to track amount of red cards awarded to each team.
 function redCard(teamName) {
 
     if (teamName == "homeRC") {
