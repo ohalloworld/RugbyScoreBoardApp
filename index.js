@@ -1,65 +1,69 @@
 // initialise necessary variables.
 
 let homeScore = 0;
+const homeValue = document.getElementById("home-score");
+const awayValue = document.getElementById("away-score");
 let awayScore = 0;
 let homeTriesSum = 0;
 let awayTriesSum = 0;
 let homeConversionSum = 0;
 let awayConversionSum = 0;
-let homeBonusPoints = document.getElementById("homeBP");
-let awayBonusPoints = document.getElementById("awayBP");
+const homeBonusPoints = document.getElementById("homeBP");
+const awayBonusPoints = document.getElementById("awayBP");
 let intervalClock;
 let intervalSB;
 let homeReds = 0;
 let awayReds = 0;
+const gameClock = document.getElementById("clock")
 
 //function to add 5 points to a team
 function addTry(clicked_id) {
     //add 5 points to the team score
-    if (clicked_id == "home-try") {
+    if (clicked_id === "home-try") {
         homeScore += 5;
         //track number of tries scored and award bonus when number exceeds 4.
         homeTriesSum++;
         if (homeTriesSum >= 4) {
             homeBonusPoints.textContent = "BP Earned";
         }
-        document.getElementById("home-score").textContent = homeScore;
+        homeValue.textContent = homeScore;
     } else {
         awayScore += 5;
         awayTriesSum++;
         if (awayTriesSum >= 4) {
             awayBonusPoints.textContent = "BP Earned"
         }
-        document.getElementById("away-score").textContent = awayScore;
+        awayValue.textContent = awayScore;
     }
 }
 
 //function to add 3 points to a team
 function addDG(clicked_id) {
-    if (clicked_id == "home-DG") {
+    if (clicked_id === "home-DG") {
         homeScore += 3;
-        document.getElementById("home-score").textContent = homeScore;
-    } else if (clicked_id == "away-DG") {
+        homeValue.textContent = homeScore;
+    } else if (clicked_id === "away-DG") {
         awayScore += 3;
-        document.getElementById("away-score").textContent = awayScore;
+        awayValue.textContent = awayScore;
     }
 }
+
 //function to add conversion point value to home team
 function homeConversion() {
     //conversion value can only be added if a try has been scored.
     if ((homeTriesSum > 0) && (homeConversionSum < homeTriesSum)) {
         homeScore += 2;
-        document.getElementById("home-score").textContent = homeScore;
+        homeValue.textContent = homeScore;
+        homeConversionSum++;
     }
-    homeConversionSum++;
 }
 
 function awayConversion() {
     if ((awayTriesSum > 0) && (awayConversionSum < awayTriesSum)) {
         awayScore += 2;
-        document.getElementById("away-score").textContent = awayScore;
+        awayValue.textContent = awayScore;
+        awayConversionSum++;
     }
-    awayConversionSum++;
 }
 
 //function to create a sin bin section which includes a 10 minute clock if yellow card awarded.
@@ -77,13 +81,14 @@ function sinBinClock(clicked_id) {
     let minutes = 10;
     let seconds = 0;
     intervalSB = setInterval(function() {
-        if ((minutes == 0) && (seconds == 0)) {
+        if ((minutes === 0) && (seconds === 0)) {
             finishClock(intervalSB);
-        } else if(seconds == 0) { 
+            tableRef.deleteRow(1);
+        } else if (seconds === 0) { 
             minutes--;
             seconds = 59; 
         } else { 
-            seconds--; 
+            seconds--;
         };
         clockCell.textContent = minutes + " : " + seconds
     }, 
@@ -96,25 +101,25 @@ function finishClock(intervalID) {
 }
 
 function kickOff() {
-    let minutes = 40
-    let = seconds = 0
+    let minutes = 40;
+    let seconds = 0;
     
     intervalClock = setInterval(function() {
-        if ((minutes == 0) && (seconds == 0)) {
+        if ((minutes === 0) && (seconds === 0)) {
             finishClock(intervalClock);
-        } else if (seconds == 0) {
+        } else if (seconds === 0) {
             minutes--;
             seconds = 59;
         } else {
             seconds--;
         };
-        document.getElementById("clock").textContent = minutes + ": " + seconds}, 1000)
+        gameClock.textContent = minutes + ": " + seconds}, 1000)
 }
 
 //reset all counters and variables to prepare for a new game.
 function reset() {
-    document.getElementById("away-score").textContent = 0;
-    document.getElementById("home-score").textContent = 0;
+    awayValue.textContent = 0;
+    homeValue.textContent = 0;
     homeTriesSum = 0;
     awayTriesSum = 0;
     homeConversionSum = 0;
